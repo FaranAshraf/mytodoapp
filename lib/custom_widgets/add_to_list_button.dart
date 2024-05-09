@@ -12,44 +12,55 @@ class AddToListButton extends StatefulWidget {
 class _AddToListButtonState extends State<AddToListButton> {
   TextEditingController nameController = TextEditingController();
   TextEditingController bodyController = TextEditingController();
+  bool isLoading = false;
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      actions: [
-        TextField(
-          controller: nameController,
-          decoration: const InputDecoration(
-            labelText: 'Add student here',
-          ),
-          textInputAction: TextInputAction.send,
-          onSubmitted: (value) async {
-            postAPIresponse(name: value, body: bodyController.text);
-            setState(() {
-              nameController.clear();
-              bodyController.clear();
-              Navigator.pop(context);
-              widget.onAddToList?.call();
-            });
-          },
-        ),
-        TextField(
-          controller: bodyController,
-          decoration: const InputDecoration(
-            labelText: 'Add Task here',
-          ),
-          textInputAction: TextInputAction.send,
-          onSubmitted: (value) async {
-            postAPIresponse(name: nameController.text, body: value);
-            setState(() {
-              bodyController.clear();
-              nameController.clear();
-              Navigator.pop(context);
-              widget.onAddToList?.call();
-            });
-          },
-        ),
-      ],
-    );
+    return isLoading
+        ? const AlertDialog(icon: Center(child: CircularProgressIndicator()))
+        : AlertDialog(
+            actions: [
+              TextField(
+                controller: nameController,
+                decoration: const InputDecoration(
+                  labelText: 'Add student here',
+                ),
+                textInputAction: TextInputAction.send,
+                onSubmitted: (value) async {
+                  setState(() {
+                    isLoading = true;
+                  });
+                  await postAPIresponse(name: value, body: bodyController.text);
+                  setState(() {
+                    isLoading = false;
+                    bodyController.clear();
+                    nameController.clear();
+                    Navigator.pop(context);
+                    widget.onAddToList?.call();
+                  });
+                },
+              ),
+              TextField(
+                controller: bodyController,
+                decoration: const InputDecoration(
+                  labelText: 'Add Task here',
+                ),
+                textInputAction: TextInputAction.send,
+                onSubmitted: (value) async {
+                  setState(() {
+                    isLoading = true;
+                  });
+
+                  await postAPIresponse(name: nameController.text, body: value);
+                  setState(() {
+                    bodyController.clear();
+                    nameController.clear();
+                    Navigator.pop(context);
+                    widget.onAddToList?.call();
+                  });
+                },
+              ),
+            ],
+          );
   }
 }

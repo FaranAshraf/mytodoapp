@@ -21,6 +21,7 @@ class EditButton extends StatefulWidget {
 class _EditButtonState extends State<EditButton> {
   TextEditingController nameController = TextEditingController();
   TextEditingController bodyController = TextEditingController();
+  bool isLoading = false;
 
   @override
   void initState() {
@@ -31,39 +32,51 @@ class _EditButtonState extends State<EditButton> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-      actions: [
-        TextField(
-          controller: nameController,
-          decoration: const InputDecoration(
-            labelText: 'Edit student name here',
-          ),
-          textInputAction: TextInputAction.send,
-          onSubmitted: (value) async {
-            putAPI(id: widget.id, name: value, body: bodyController.text);
-            setState(() {
-              nameController.clear();
-            });
-            Navigator.pop(context);
-            widget.onEdit?.call();
-          },
-        ),
-        TextField(
-          controller: bodyController,
-          decoration: const InputDecoration(
-            labelText: 'Edit Task here',
-          ),
-          textInputAction: TextInputAction.send,
-          onSubmitted: (value) async {
-            putAPI(id: widget.id, name: nameController.text, body: value);
-            setState(() {
-              bodyController.clear();
-            });
-            Navigator.pop(context);
-            widget.onEdit?.call();
-          },
-        ),
-      ],
-    );
+    return isLoading
+        ? const AlertDialog(icon: Center(child: CircularProgressIndicator()))
+        : AlertDialog(
+            actions: [
+              TextField(
+                controller: nameController,
+                decoration: const InputDecoration(
+                  labelText: 'Edit student name here',
+                ),
+                textInputAction: TextInputAction.send,
+                onSubmitted: (value) async {
+                  setState(() {
+                    isLoading = true;
+                  });
+                  await putAPI(
+                      id: widget.id, name: value, body: bodyController.text);
+                  setState(() {
+                    bodyController.clear();
+                    nameController.clear();
+                  });
+                  Navigator.pop(context);
+                  widget.onEdit?.call();
+                },
+              ),
+              TextField(
+                controller: bodyController,
+                decoration: const InputDecoration(
+                  labelText: 'Edit Task here',
+                ),
+                textInputAction: TextInputAction.send,
+                onSubmitted: (value) async {
+                  setState(() {
+                    isLoading = true;
+                  });
+                  await putAPI(
+                      id: widget.id, name: nameController.text, body: value);
+                  setState(() {
+                    bodyController.clear();
+                    nameController.clear();
+                  });
+                  Navigator.pop(context);
+                  widget.onEdit?.call();
+                },
+              ),
+            ],
+          );
   }
 }

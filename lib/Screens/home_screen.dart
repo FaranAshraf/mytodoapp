@@ -24,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
         backgroundColor: Colors.black,
         body: NamesListWidget(),
         floatingActionButton: FloatingActionButton(
+          backgroundColor: Colors.yellow,
           child: const Icon(Icons.add_box),
           onPressed: () {
             // Instantiate the AddToListButton widget and display it
@@ -31,10 +32,7 @@ class _HomeScreenState extends State<HomeScreen> {
               context: context,
               builder: (BuildContext context) {
                 return AddToListButton(
-                  onAddToList: () {
-                    // Trigger a rebuild of HomeScreen
-                    setState(() {});
-                  },
+                  onAddToList: () {},
                 );
               },
             );

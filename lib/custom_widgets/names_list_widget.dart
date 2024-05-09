@@ -46,10 +46,7 @@ class _NamesListWidgetState extends State<NamesListWidget> {
                         color: Color.fromARGB(160, 0, 0, 0)),
                   ),
                   trailing: DeleteButton(
-                      onDelete: () {
-                        // Trigger a rebuild of HomeScreen
-                        setState(() {});
-                      },
+                      onDelete: () {},
                       id: snapshot.data![index].id!,
                       name: snapshot.data![index].name!),
                   onLongPress: () {
@@ -60,9 +57,7 @@ class _NamesListWidgetState extends State<NamesListWidget> {
                             name: snapshot.data![index].name!,
                             body: snapshot.data![index].body!,
                             id: snapshot.data![index].id!,
-                            onEdit: () {
-                              setState(() {});
-                            },
+                            onEdit: () {},
                           );
                         });
                   },

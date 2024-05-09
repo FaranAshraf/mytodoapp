@@ -13,15 +13,20 @@ class DeleteButton extends StatefulWidget {
 }
 
 class _DeleteButtonState extends State<DeleteButton> {
+  bool isLoading = false;
   @override
   Widget build(BuildContext context) {
-    return IconButton(
-      onPressed: () => _showDeleteConfirmationDialog(
-        id: widget.id,
-        name: widget.name,
-      ),
-      icon: const Icon(Icons.delete),
-    );
+    return isLoading
+        ? const CircularProgressIndicator()
+        : IconButton(
+            onPressed: () async {
+              await _showDeleteConfirmationDialog(
+                id: widget.id,
+                name: widget.name,
+              );
+            },
+            icon: const Icon(Icons.delete),
+          );
   }
 
   Future<void> _showDeleteConfirmationDialog(
@@ -42,9 +47,13 @@ class _DeleteButtonState extends State<DeleteButton> {
             ),
             TextButton(
               onPressed: () async {
+                setState(() {
+                  isLoading = true;
+                  Navigator.of(context).pop();
+                });
                 await deleteAPI(id: id);
                 setState(() {}); // Refresh UI after deletion
-                Navigator.of(context).pop();
+
                 widget.onDelete?.call();
               },
               child: Text('Delete'),
