@@ -32,7 +32,9 @@ class _HomeScreenState extends State<HomeScreen> {
               context: context,
               builder: (BuildContext context) {
                 return AddToListButton(
-                  onAddToList: () {},
+                  onAddToList: () {
+                    setState(() {});
+                  },
                 );
               },
             );

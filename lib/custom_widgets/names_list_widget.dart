@@ -46,7 +46,9 @@ class _NamesListWidgetState extends State<NamesListWidget> {
                         color: Color.fromARGB(160, 0, 0, 0)),
                   ),
                   trailing: DeleteButton(
-                      onDelete: () {},
+                      onDelete: () {
+                        setState(() {});
+                      },
                       id: snapshot.data![index].id!,
                       name: snapshot.data![index].name!),
                   onLongPress: () {
@@ -57,7 +59,9 @@ class _NamesListWidgetState extends State<NamesListWidget> {
                             name: snapshot.data![index].name!,
                             body: snapshot.data![index].body!,
                             id: snapshot.data![index].id!,
-                            onEdit: () {},
+                            onEdit: () {
+                              setState(() {});
+                            },
                           );
                         });
                   },
