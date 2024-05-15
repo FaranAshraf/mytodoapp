@@ -1,13 +1,18 @@
 class PostModel {
-  String? name;
+  String? title;
   String? id;
   String? body;
+  String? type;
 
-  PostModel({required this.name, required this.id});
+  PostModel({
+    required this.title,
+    required this.id,
+  });
   PostModel.fromJson(Map<String, dynamic> json) {
-    name = json["name"];
+    title = json["title"];
     id = json["_id"];
     body = json["body"];
+    type = json["type"];
   }
   // Map<String, dynamic> toJson() {
   //   final Map<String, dynamic> data = <String, dynamic>{};

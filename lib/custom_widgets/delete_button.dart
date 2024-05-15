@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:mytodoapp/Functions/deleteapiresponse.dart';
+import 'package:mytodoapp/Functions/api_reference.dart';
 
 class DeleteButton extends StatefulWidget {
   final VoidCallback? onDelete;
@@ -18,15 +18,14 @@ class _DeleteButtonState extends State<DeleteButton> {
   Widget build(BuildContext context) {
     return isLoading
         ? const CircularProgressIndicator()
-        : IconButton(
-            onPressed: () async {
-              await _showDeleteConfirmationDialog(
+        : TextButton(
+            onPressed: () {
+              _showDeleteConfirmationDialog(
                 id: widget.id,
                 name: widget.name,
               );
             },
-            icon: const Icon(Icons.delete),
-          );
+            child: const Text('Delete Task'));
   }
 
   Future<void> _showDeleteConfirmationDialog(
@@ -35,7 +34,7 @@ class _DeleteButtonState extends State<DeleteButton> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('Confirm'),
+          title: const Text('Confirm'),
           content: Text('Are you sure you want to delete $name from the List?'),
           actions: <Widget>[
             TextButton(
@@ -43,7 +42,7 @@ class _DeleteButtonState extends State<DeleteButton> {
                 Navigator.of(context).pop();
                 widget.onDelete?.call();
               },
-              child: Text('Cancel'),
+              child: const Text('Cancel'),
             ),
             TextButton(
               onPressed: () async {
@@ -51,12 +50,12 @@ class _DeleteButtonState extends State<DeleteButton> {
                   isLoading = true;
                   Navigator.of(context).pop();
                 });
-                await deleteAPI(id: id);
+                await APIReferences.deleteAPI(id: id);
                 setState(() {}); // Refresh UI after deletion
 
                 widget.onDelete?.call();
               },
-              child: Text('Delete'),
+              child: const Text('Delete'),
             ),
           ],
         );
