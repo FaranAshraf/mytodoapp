@@ -1,14 +1,14 @@
-class PostModel {
+class GetModel {
   String? title;
   String? id;
   String? body;
   String? type;
 
-  PostModel({
+  GetModel({
     required this.title,
     required this.id,
   });
-  PostModel.fromJson(Map<String, dynamic> json) {
+  GetModel.fromJson(Map<String, dynamic> json) {
     title = json["title"];
     id = json["_id"];
     body = json["body"];
@@ -16,7 +16,7 @@ class PostModel {
   }
   // Map<String, dynamic> toJson() {
   //   final Map<String, dynamic> data = <String, dynamic>{};
-  //   data["name"] = name;
+  //   data["title"] = title;
   //   return data;
   // }
 }

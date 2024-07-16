@@ -1,23 +1,23 @@
-import 'package:mytodoapp/Models/postmodel.dart';
+import 'package:mytodoapp/Models/getmodel.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 class APIReferences {
   static String endpoint = 'd7ed4d188de24399aa086a55486b6179';
-  static Future<PostModel>? getSingleTask({required String id}) async {
+  static Future<GetModel>? getSingleTask({required String id}) async {
     var url = Uri.parse('https://crudcrud.com/api/$endpoint/tasks/$id');
     var response = await http.get(url);
     var responseBody = jsonDecode(response.body);
-    return PostModel.fromJson(responseBody);
+    return GetModel.fromJson(responseBody);
   }
 
-  static Future<List<PostModel>?> getAPIresponse() async {
+  static Future<List<GetModel>?> getAPIresponse() async {
     var url = Uri.parse('https://crudcrud.com/api/$endpoint/tasks/');
     var response = await http.get(url);
     var responseBody = jsonDecode(response.body);
-    List<PostModel> unicorns = [];
+    List<GetModel> unicorns = [];
     for (var element in responseBody) {
-      unicorns.add(PostModel.fromJson(element));
+      unicorns.add(GetModel.fromJson(element));
     }
     return unicorns;
   }

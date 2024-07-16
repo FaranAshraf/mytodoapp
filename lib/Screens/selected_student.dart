@@ -122,8 +122,6 @@ class _SelectedStudentState extends State<SelectedStudent> {
                                     setState(() {});
 
                                     widget.onEdit?.call();
-
-                                    //why not rebuilding selected screen state after editbutton pressed..??
                                   })
                             ],
                           )
